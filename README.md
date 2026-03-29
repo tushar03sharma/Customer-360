@@ -9,6 +9,7 @@ Customer 360 Analytics Warehouse is a resume-ready data engineering project that
 - Airflow-style orchestration with DAG-shaped task boundaries
 - Customer-level analytics for CLV, churn, and retention patterns
 - Data quality checks and exportable analytics outputs
+- A modern Streamlit dashboard for executive and analyst storytelling
 
 ## Architecture
 
@@ -26,6 +27,7 @@ Customer 360 Analytics Warehouse is a resume-ready data engineering project that
 ├── data/
 │   ├── raw/
 │   └── exports/
+├── dashboard/
 ├── dags/
 ├── models/
 │   ├── staging/
@@ -49,9 +51,15 @@ Customer 360 Analytics Warehouse is a resume-ready data engineering project that
 ```bash
 python3 scripts/run_pipeline.py --regenerate-data
 python3 scripts/run_orchestrated_pipeline.py --regenerate-data
-python3 -m unittest tests/test_pipeline.py
-python3 -m unittest tests/test_orchestration.py
+streamlit run dashboard/app.py
+python3 -m unittest tests/test_pipeline.py tests/test_orchestration.py tests/test_dashboard.py
 ```
+
+## Dashboard
+
+- `dashboard/app.py` is a high-effort Streamlit command center built directly on top of the DuckDB warehouse.
+- It includes executive KPIs, channel and revenue trends, CLV vs churn mapping, cohort repeat analysis, and support health views.
+- Filters let you slice the full customer base by acquisition channel, churn band, city, and repeat segment.
 
 ## Airflow-style orchestration
 
@@ -76,4 +84,5 @@ Task flow:
 - Built a Customer 360 analytics warehouse in DuckDB with Python ETL pipelines integrating 250+ customers, 600+ orders, payments, and support events into staged and mart-layer models.
 - Designed an Airflow-style DAG with task-based orchestration for extraction, warehouse loading, transformation, validation, and export, making the pipeline production-like and scheduler-ready.
 - Modeled business-facing marts for CLV, churn risk, and repeat purchase behavior using SQL transformations, cohort logic, and customer-level feature engineering.
+- Developed a modern Streamlit dashboard with interactive filtering, lifecycle KPIs, cohort retention views, and customer risk/value exploration powered directly by warehouse marts.
 - Added automated data quality checks for uniqueness, referential integrity, and revenue validation, then exported clean marts for downstream analytics use.
